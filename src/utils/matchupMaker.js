@@ -3,11 +3,20 @@
  * the manipulation of the type matchups that exist within the
  * matchup.
  *
- * @return {*} 
+ * @return {*}
  */
-export const matchupMaker = ()=>{
+export const matchupMaker = () => {
 
-    return {
-        create: ()=>{}
+    const createMatup = (types)=>{
+
     }
-}
+  return {
+    create: () => {},
+    remove: () => {},
+    add: () => {},
+    increaseAttack: () => {},
+    decreaseAttack: () => {},
+    increaseDefense: () => {},
+    decreaseDefense: () => {},
+  };
+};
