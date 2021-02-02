@@ -1,4 +1,4 @@
-import { Matchup, MatchupHandler, matchupMaker } from "./matchupMaker";
+import { MatchupHandler, matchupMaker } from "./matchupMaker";
 
 describe("matchMaker", () => {
   let matchup: MatchupHandler
@@ -72,7 +72,7 @@ describe("matchMaker", () => {
   });
 
   it("should decrease defense for one type against another", () => {
-    matchup.decreaseDefense("Paper", "Rock", 0);
+    matchup.decreaseDefense("Paper", "Rock", 1);
     expect(matchup.get()).toEqual({
       Rock: {},
       Paper: {
@@ -80,7 +80,7 @@ describe("matchMaker", () => {
           Rock: 1,
         },
         Defense: {
-          Rock: 0,
+          Rock: 1,
         },
       },
       Scissors: {},

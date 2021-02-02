@@ -72,6 +72,7 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
       chosenMatchupAttribute = chosenMatchupAttribute || { [types[1]]: 0 };
     }
     chosenMatchupAttribute[types[1]] += amount;
+    matchup[types[0]][attribute] = chosenMatchupAttribute;
   };
 
   return {
