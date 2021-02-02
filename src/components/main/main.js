@@ -1,1 +1,0 @@
-export { TypeMatchupMaker } from "./index";
