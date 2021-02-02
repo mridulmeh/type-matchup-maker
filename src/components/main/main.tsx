@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { matchupFinder } from '../../utils/matchupFinder';
+import { matchupMaker } from '../../utils/matchupMaker';
 
 export const TypeMatchupMaker = () => {
-  return <div>{matchupFinder(1, 2)}</div>;
+  return <div>dummy</div>;
 };
