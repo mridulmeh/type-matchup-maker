@@ -1,17 +1,17 @@
 import { create } from "domain";
 
 export type Attack = {
-  [key in string] : number
-}
+  [key in string]: number;
+};
 
 export type Defense = {
-  [key in string] : number
-}
+  [key in string]: number;
+};
 
 export type SingleMatchup = {
-  Attack?: Attack
-  Defense?: Defense
-}
+  Attack?: Attack;
+  Defense?: Defense;
+};
 
 /**
  * The matchup maker function acts as a singleton ensuring
@@ -29,10 +29,18 @@ export const matchupMaker = () => {
     });
   };
 
+  const removeType = (type: string) => {
+    delete matchup[type];
+  };
+
+  const addType = (type: string) => {
+    matchup[type] = {};
+  };
+
   return {
     create: createMatchup,
-    remove: () => {},
-    add: () => {},
+    remove: removeType,
+    add: addType,
     increaseAttack: () => {},
     decreaseAttack: () => {},
     increaseDefense: () => {},
