@@ -16,8 +16,8 @@ export type SingleMatchup = {
 export type Matchup = { [key in string]: SingleMatchup };
 
 export type ChangeAttribute = (
-  attackingType: string,
-  defendingType: string,
+  firstType: string,
+  secondType: string,
   amount: number
 ) => void;
 
@@ -33,6 +33,12 @@ export type MatchupHandler = {
 
 export type MatchupMaker = (types: string[]) => MatchupHandler;
 
+/**
+ * Creates matchup based on the new types provided
+ *
+ * @param {string[]} types
+ * @return {*}  {Matchup}
+ */
 const createMatchup = (types: string[]): Matchup => {
   const matchup: Matchup = {};
   types.forEach((type: string) => {
@@ -45,6 +51,25 @@ const createMatchup = (types: string[]): Matchup => {
  * The matchup maker function acts as a singleton ensuring
  * the manipulation of the type matchups that exist within the
  * matchup.
+ *
+ * format for the matchup for Rock, Paper and Scissors:
+ * {
+ *  Rock: {
+ *    Attack : {
+ *      Scissors: 1
+ *    }
+ *  },
+ * Paper: {
+ *    Attack : {
+ *      Rock: 1
+ *    }
+ *  },
+ * Scissors: {
+ *    Attack : {
+ *      Paper: 1
+ *    }
+ *  }
+ * }
  *
  * @return {*}
  */
@@ -59,18 +84,25 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
     matchup[type] = {};
   };
 
+  // Changes the value by the desired amount for attack/defense between two types
   const changeAttribute = (
     types: string[],
     attribute: "Attack" | "Defense",
     amount: number
   ): void => {
     let chosenMatchupAttribute;
+    
+    // Get the type that is attacking/defending
     const attackingType = matchup[types[0]];
+
+    // Get the attack/defense set for that type
     chosenMatchupAttribute = attackingType[attribute];
 
     if (!chosenMatchupAttribute) {
       chosenMatchupAttribute = chosenMatchupAttribute || { [types[1]]: 0 };
     }
+
+    // Change the stat against the type that is attacking / being attacked
     chosenMatchupAttribute[types[1]] += amount;
     matchup[types[0]][attribute] = chosenMatchupAttribute;
   };
@@ -90,14 +122,14 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
       amount: number
     ) => changeAttribute([attackingType, defendingType], "Attack", -amount),
     increaseDefense: (
-      attackingType: string,
       defendingType: string,
+      attackingType: string,
       amount: number
-    ) => changeAttribute([attackingType, defendingType], "Defense", amount),
+    ) => changeAttribute([defendingType, attackingType], "Defense", amount),
     decreaseDefense: (
-      attackingType: string,
       defendingType: string,
+      attackingType: string,
       amount: number
-    ) => changeAttribute([attackingType, defendingType], "Defense", -amount),
+    ) => changeAttribute([defendingType, attackingType], "Defense", -amount),
   };
 };
