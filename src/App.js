@@ -1,5 +1,5 @@
 import "./App.css";
-import { TypeMatchupMaker } from "./components/main";
+import { TypeMatchupMaker } from "./components/main/main";
 
 function App() {
   return (
