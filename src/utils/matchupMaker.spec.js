@@ -1,29 +1,89 @@
 import { matchupMaker } from "./matchupMaker";
 
 describe("matchMaker", () => {
+  let matchup;
+
   it("should create a matchup with given types", () => {
-    const matchup = matchupMaker.create(["Rock", "Paper", "Pencil"]);
+    matchup = matchupMaker.create(["Rock", "Paper", "Pencil"]);
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {},
+      Pencil: {},
+    });
   });
 
   it("should remove a type from the matchup", () => {
-    matchupMaker.remove("Pencil");
+    matchup.remove("Pencil");
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {},
+    });
   });
 
   it("should add a type to the matchup", () => {
-    matchupMaker.add("Scissors");
+    matchup.add("Scissors");
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {},
+      Scissors: {},
+    });
   });
 
   it("should increase attack for one type against another", () => {
-    matchupMaker.increaseAttack("Paper", "Rock", 2);
+    matchup.increaseAttack("Paper", "Rock", 4);
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {
+        Attack: {
+          Rock: 4,
+        },
+      },
+      Scissors: {},
+    });
   });
+  
   it("should decrease attack for one type against another", () => {
-    matchupMaker.decreaseAttack("Paper", "Rock", 2);
+    matchup.decreaseAttack("Paper", "Rock", 3);
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {
+        Attack: {
+          Rock: 1,
+        },
+      },
+      Scissors: {},
+    });
   });
 
-  it("should increase defense for one type against another", () => {
-    matchupMaker.increaseDefense("Paper", "Rock", 2);
+  it("should increase defense for one type when attacked by another", () => {
+    matchup.increaseDefense("Paper", "Rock", 2);
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {
+        Attack: {
+          Rock: 1,
+        },
+        Defense: {
+          Rock: 2,
+        },
+      },
+      Scissors: {},
+    });
   });
+
   it("should decrease defense for one type against another", () => {
-    matchupMaker.decreaseDefense("Paper", "Rock", 0);
+    matchup.decreaseDefense("Paper", "Rock", 0);
+    expect(matchup.get()).toEqual({
+      Rock: {},
+      Paper: {
+        Attack: {
+          Rock: 1,
+        },
+        Defense: {
+          Rock: 0,
+        },
+      },
+      Scissors: {},
+    });
   });
 });
