@@ -1,10 +1,10 @@
-import { matchupMaker } from "./matchupMaker";
+import { Matchup, MatchupHandler, matchupMaker } from "./matchupMaker";
 
 describe("matchMaker", () => {
-  let matchup;
+  let matchup: MatchupHandler
 
   it("should create a matchup with given types", () => {
-    matchup = matchupMaker.create(["Rock", "Paper", "Pencil"]);
+    matchup = matchupMaker(["Rock", "Paper", "Pencil"]);
     expect(matchup.get()).toEqual({
       Rock: {},
       Paper: {},

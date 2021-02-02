@@ -13,6 +13,26 @@ export type SingleMatchup = {
   Defense?: Defense;
 };
 
+export type Matchup = { [key in string]: SingleMatchup };
+
+export type MatchupHandler = {
+  remove: (type: string) => void;
+  add: (type: string) => void;
+  get: () => Matchup
+}
+
+export type MatchupMaker = (
+  types: string[]
+) => MatchupHandler
+
+const createMatchup = (types: string[]): Matchup => {
+  const matchup: Matchup = {};
+  types.forEach((type: string) => {
+    matchup[type] = {};
+  });
+  return matchup;
+};
+
 /**
  * The matchup maker function acts as a singleton ensuring
  * the manipulation of the type matchups that exist within the
@@ -20,25 +40,19 @@ export type SingleMatchup = {
  *
  * @return {*}
  */
-export const matchupMaker = () => {
-  const matchup: { [key in string]: SingleMatchup } = {};
+export const matchupMaker: MatchupMaker = (types: string[]) => {
+  const matchup = createMatchup(types);
 
-  const createMatchup = (types: string[]) => {
-    types.forEach((type: string) => {
-      matchup[type] = {};
-    });
-  };
-
-  const removeType = (type: string) => {
+  const removeType = (type: string): void => {
     delete matchup[type];
   };
 
-  const addType = (type: string) => {
+  const addType = (type: string): void => {
     matchup[type] = {};
   };
 
   return {
-    create: createMatchup,
+    get: () => matchup,
     remove: removeType,
     add: addType,
     increaseAttack: () => {},
