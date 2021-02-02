@@ -25,6 +25,7 @@ export type MatchupHandler = {
   remove: (type: string) => void;
   add: (type: string) => void;
   get: () => Matchup;
+  update: (matchup: Matchup) => void;
   increaseAttack: ChangeAttribute;
   decreaseAttack: ChangeAttribute;
   increaseDefense: ChangeAttribute;
@@ -74,7 +75,7 @@ const createMatchup = (types: string[]): Matchup => {
  * @return {*}
  */
 export const matchupMaker: MatchupMaker = (types: string[]) => {
-  const matchup = createMatchup(types);
+  let matchup: Matchup = createMatchup(types);
 
   const removeType = (type: string): void => {
     delete matchup[type];
@@ -83,6 +84,10 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
   const addType = (type: string): void => {
     matchup[type] = {};
   };
+
+  const updateMatchup = (newMatchup: Matchup)=>{
+    matchup = newMatchup
+  }
 
   // Changes the value by the desired amount for attack/defense between two types
   const changeAttribute = (
@@ -111,6 +116,7 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
     get: () => matchup,
     remove: removeType,
     add: addType,
+    update: updateMatchup,
     increaseAttack: (
       attackingType: string,
       defendingType: string,
