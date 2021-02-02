@@ -15,15 +15,23 @@ export type SingleMatchup = {
 
 export type Matchup = { [key in string]: SingleMatchup };
 
+export type ChangeAttribute = (
+  attackingType: string,
+  defendingType: string,
+  amount: number
+) => void;
+
 export type MatchupHandler = {
   remove: (type: string) => void;
   add: (type: string) => void;
-  get: () => Matchup
-}
+  get: () => Matchup;
+  increaseAttack: ChangeAttribute;
+  decreaseAttack: ChangeAttribute;
+  increaseDefense: ChangeAttribute;
+  decreaseDefense: ChangeAttribute;
+};
 
-export type MatchupMaker = (
-  types: string[]
-) => MatchupHandler
+export type MatchupMaker = (types: string[]) => MatchupHandler;
 
 const createMatchup = (types: string[]): Matchup => {
   const matchup: Matchup = {};
@@ -51,13 +59,44 @@ export const matchupMaker: MatchupMaker = (types: string[]) => {
     matchup[type] = {};
   };
 
+  const changeAttribute = (
+    types: string[],
+    attribute: "Attack" | "Defense",
+    amount: number
+  ): void => {
+    let chosenMatchupAttribute;
+    const attackingType = matchup[types[0]];
+    chosenMatchupAttribute = attackingType[attribute];
+
+    if (!chosenMatchupAttribute) {
+      chosenMatchupAttribute = chosenMatchupAttribute || { [types[1]]: 0 };
+    }
+    chosenMatchupAttribute[types[1]] += amount;
+  };
+
   return {
     get: () => matchup,
     remove: removeType,
     add: addType,
-    increaseAttack: () => {},
-    decreaseAttack: () => {},
-    increaseDefense: () => {},
-    decreaseDefense: () => {},
+    increaseAttack: (
+      attackingType: string,
+      defendingType: string,
+      amount: number
+    ) => changeAttribute([attackingType, defendingType], "Attack", amount),
+    decreaseAttack: (
+      attackingType: string,
+      defendingType: string,
+      amount: number
+    ) => changeAttribute([attackingType, defendingType], "Attack", -amount),
+    increaseDefense: (
+      attackingType: string,
+      defendingType: string,
+      amount: number
+    ) => changeAttribute([attackingType, defendingType], "Defense", amount),
+    decreaseDefense: (
+      attackingType: string,
+      defendingType: string,
+      amount: number
+    ) => changeAttribute([attackingType, defendingType], "Defense", -amount),
   };
 };
