@@ -1,7 +1,8 @@
+import React from "react";
+import { RockPaperScissors } from "../rock-paper-scissors";
 
-import React from 'react';
-import { matchupMaker } from '../../utils/matchupMaker';
 
-export const TypeMatchupMaker = () => {
-  return <div>dummy</div>;
+export const TypeMatchupMaker: React.FC = () => {
+  // Currently only allows rock paper scissors, could easily be extended when needed
+  return <RockPaperScissors />;
 };

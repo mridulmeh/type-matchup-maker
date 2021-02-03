@@ -1,5 +1,3 @@
-import { create } from "domain";
-
 export type Attack = {
   [key in string]: number;
 };
