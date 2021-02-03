@@ -41,7 +41,6 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
 
   const attack = (choiceA: string, choiceB: string) => {
     const attackStat = matchup[choiceA].Attack?.[choiceB] ?? 0;
-    console.log(attackStat);
     const defenseStat = matchup[choiceB].Defense?.[choiceA] ?? 0;
 
     return Math.max(0, attackStat - defenseStat);
@@ -49,7 +48,6 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
 
   const playTurn = (playerAChoice: string, playerBChoice: string) => {
     const playerAScoreChange = attack(playerAChoice, playerBChoice);
-    console.log(playerAScoreChange);
     const playerBScoreChange = attack(playerBChoice, playerAChoice);
     setScore([score[0] + playerAScoreChange, score[1] + playerBScoreChange]);
   };

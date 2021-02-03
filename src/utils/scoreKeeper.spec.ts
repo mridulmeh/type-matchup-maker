@@ -1,9 +1,8 @@
-import { match } from "assert";
-import { MatchupHandler, matchupMaker } from "./matchupMaker";
+import { matchupMaker } from "./matchupMaker";
 import { ScoreBoardHandler, scoreKeeper } from "./scoreKeeper";
 
 describe("matchMaker", () => {
-  let scoreBoardHandler: ScoreBoardHandler
+  let scoreBoardHandler: ScoreBoardHandler;
   const matchupHandler = matchupMaker(["Rock", "Paper", "Scissors"]);
 
   it("should create a new scoreboard for a Matchup", () => {
