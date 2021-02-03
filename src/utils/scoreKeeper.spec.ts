@@ -1,6 +1,6 @@
 import { match } from "assert";
 import { MatchupHandler, matchupMaker } from "./matchupMaker";
-import { ScoreBoardHandler, scoreKeeper } from "./scoreKeepter";
+import { ScoreBoardHandler, scoreKeeper } from "./scoreKeeper";
 
 describe("matchMaker", () => {
   let scoreBoardHandler: ScoreBoardHandler
