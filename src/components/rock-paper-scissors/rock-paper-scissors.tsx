@@ -1,10 +1,15 @@
 import React from "react";
 import { ScoreBoardHandler } from "../../utils/scoreKeeper";
+import { GameArea } from "../game-area";
+import { GameBoard } from "../game-board";
+import { Header } from "../header";
+import { ScoreBoard } from "../score-board/score-board";
+import { Settings } from "../settings";
 import { createRockPaperScissorsGame } from "./gameCreator";
 
-export const RockPaperScissors = () => {
-  const gameBoard: ScoreBoardHandler = createRockPaperScissorsGame();
-  gameBoard.setMaxScore(3);
+export const RockPaperScissors: React.FC = () => {
+  const scoreBoardHandler: ScoreBoardHandler = createRockPaperScissorsGame();
+  scoreBoardHandler.setMaxScore(3);
 
-  return <div>{gameBoard.getMaxScore()}</div>;
+  return <GameBoard scoreBoardHandler={scoreBoardHandler} />;
 };
