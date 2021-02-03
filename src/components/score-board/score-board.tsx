@@ -3,12 +3,10 @@ import { Card, CardContent, CardHeader } from "../common/card";
 import "./score-board.css";
 import "../common.css";
 
-
-
 type ScoreBoardProps = {
-  players: string[]
-  score: number[]
-}
+  players: string[];
+  score: number[];
+};
 
 export const ScoreTable: React.FC<ScoreBoardProps> = ({ players, score }) => {
   return (
@@ -30,9 +28,9 @@ export const ScoreTable: React.FC<ScoreBoardProps> = ({ players, score }) => {
 
 export const GameOptions = () => {
   return (
-    <div>
-      <button>Restart Game</button>
-      <button>End Game</button>
+    <div className="gameOptions centered-display">
+      <button className="optionButton restart">Restart Game</button>
+      <button className="optionButton end">End Game</button>
     </div>
   );
 };

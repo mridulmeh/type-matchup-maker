@@ -16,6 +16,12 @@
   .scoreBoardTable {
     height: 60%;
   }
+  .gameOptions {
+    flex-direction: column;
+  }
+  .optionButton{
+    width: 90%
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -24,7 +30,13 @@
     height: 20%;
   }
   .scoreBoardTable {
-    height: 80%;
+    height: 60%;
+  }
+  .gameOptions {
+    flex-direction: row;
+  }
+  .optionButton{
+    width: 45%
   }
 }
 
@@ -40,4 +52,22 @@
   border: 1px solid rgba(0, 0, 0, 0.12);
   vertical-align: middle;
   text-align: center;
+}
+
+.gameOptions {
+  display: flex;
+}
+
+.optionButton{
+  margin: 8px;
+}
+
+.restart{
+  background-color: #197278;
+  color: white;
+}
+
+.end {
+  background-color: #772e25;
+  color: white;
 }
