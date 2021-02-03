@@ -12,7 +12,12 @@ export type GameAreaProps = {
   onChoiceSelect: (choice: string) => void;
   playerScore: number;
   opponentScore: number;
-  selectedChoice: string
+  selectedChoice: string;
+  gameStatus: "running" | "paused" | "end";
+};
+
+const selectChoiceRandomly = (numberOfChoices: number) => {
+  return Math.floor(Math.random() * numberOfChoices) + 1;
 };
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
@@ -21,10 +26,22 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     matchupHandler,
     onChoiceSelect,
     playerScore,
-    selectedChoice
+    opponentScore,
+    selectedChoice,
+    gameStatus,
   } = props;
 
   const player = playerHandler.get();
+  const isAutomatic = player.type === "computer";
+  const choices = matchupHandler.getChoices();
+
+  React.useEffect(() => {
+    if (!selectedChoice && isAutomatic) {
+      setTimeout(() => {
+        onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
+      }, 500);
+    }
+  }, [selectedChoice]);
 
   return (
     <div className="gameAreaContainer">
@@ -34,10 +51,17 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
         </CardHeader>
         <CardContent>
           <GameAreaChoices
-            choices={matchupHandler.getChoices()}
+            choices={choices}
+            disabled={isAutomatic || gameStatus !== "running"}
             onChoiceSelect={(choice: string) => onChoiceSelect(choice)}
           />
           <GameTurnChoices selectedChoice={selectedChoice} />
+          <div className="gameTurnContainer centered-display">
+            <div className="gameTurnInnerContainer centered-display">
+              {gameStatus !== "running" &&
+                (playerScore > opponentScore ? "Winner" : "Loser")}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

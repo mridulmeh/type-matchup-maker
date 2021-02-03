@@ -32,12 +32,14 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
       }, 500);
     }
   }, [currentTurnChoices]);
+
   return (
     <>
       <Header header={"Rock Papers Scissors"} />
       <div className="gameContainer">
         <GameArea
           key={"first-player"}
+          gameStatus={scoreBoardHandler.getGameStatus()}
           playerHandler={playerAHandler}
           matchupHandler={matchupHandler}
           selectedChoice={currentTurnChoices[0]}
@@ -50,6 +52,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
         <ScoreBoard />
         <GameArea
           key={"second-player"}
+          gameStatus={scoreBoardHandler.getGameStatus()}
           playerHandler={playerBHandler}
           matchupHandler={matchupHandler}
           selectedChoice={currentTurnChoices[1]}

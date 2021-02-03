@@ -11,7 +11,7 @@ export type PlayerHandler = {
 export const playerMaker = (
   index: 0 | 1,
   name: string,
-  type: "computer" | "user" = "computer"
+  type: "computer" | "user" = "user"
 ): PlayerHandler => {
   const player: Player = {
     name,
