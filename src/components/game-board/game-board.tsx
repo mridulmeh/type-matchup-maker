@@ -25,13 +25,11 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
 
   React.useEffect(() => {
     if (currentTurnChoices[0]?.length && currentTurnChoices[1]?.length) {
-      console.log(currentTurnChoices[0], currentTurnChoices[1]);
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore())
       setCurrentTurnChoices([])
     }
   }, [currentTurnChoices]);
-  console.log(score)
   return (
     <>
       <Header header={"Rock Papers Scissors"} />
