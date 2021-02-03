@@ -35,7 +35,7 @@ export const GameAreaChoices: React.FC<GameAreaChoicesProps> = (props) => {
   return (
     <div className="gameAreaChoicesContainer">
       {choices.map((choice) => {
-        return <Choice choice={choice} onChoiceSelect={onChoiceSelect} />;
+        return <Choice key={choice} choice={choice} onChoiceSelect={onChoiceSelect} />;
       })}
     </div>
   );
