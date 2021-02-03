@@ -7,12 +7,13 @@ import { Settings } from "../settings";
 
 export type GameBoardProps = {
   scoreBoardHandler: ScoreBoardHandler;
+  header: React.ReactNode
 };
 
 export const GameBoard: React.FC<GameBoardProps> = (props) => {
   return (
     <div>
-      <Header />
+      <Header header={'Rock Papers Scissors'}  />
       <GameArea />
       <GameArea />
       <ScoreBoard />
