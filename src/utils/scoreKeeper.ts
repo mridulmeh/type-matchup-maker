@@ -40,13 +40,23 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
   };
 
   const attack = (choiceA: string, choiceB: string) => {
+    // Attack and Defesne stats are used to determine the 
+    // outcome of the matchup and how much score each turn will
+    // evaluate to
+    // Missing attack stat against a particular type automatically
+    // means there will be no score for that player
     const attackStat = matchup[choiceA].Attack?.[choiceB] ?? 0;
+
+    // The defense stat reduces the amount of points an attack could
+    // score
     const defenseStat = matchup[choiceB].Defense?.[choiceA] ?? 0;
 
     return Math.max(0, attackStat - defenseStat);
   };
 
   const playTurn = (playerAChoice: string, playerBChoice: string) => {
+    // Both players attack each turn and score respective points
+    // based on how much their attack would affect the outcome
     const playerAScoreChange = attack(playerAChoice, playerBChoice);
     const playerBScoreChange = attack(playerBChoice, playerAChoice);
     setScore([score[0] + playerAScoreChange, score[1] + playerBScoreChange]);
