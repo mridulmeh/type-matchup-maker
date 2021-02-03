@@ -12,6 +12,10 @@ describe("matchMaker", () => {
     });
   });
 
+  it("should give matchup choices", () => {
+    expect(matchup.getChoices()).toEqual(["Rock", "Paper", "Pencil"]);
+  });
+
   it("should remove a type from the matchup", () => {
     matchup.remove("Pencil");
     expect(matchup.get()).toEqual({

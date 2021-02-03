@@ -1,5 +1,6 @@
 import React from "react";
+import './score-board.css'
 
 export const ScoreBoard: React.FC = () => {
-  return <div>ScoreBoard</div>;
+  return <div className="scoreBoardContainer">ScoreBoard</div>;
 };
