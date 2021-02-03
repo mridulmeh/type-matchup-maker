@@ -5,10 +5,11 @@ import { ResourceMap } from "../../utils/resources";
 
 export type GameTurnProps = {
   selectedChoice: string | undefined;
+  isChoiceHidden: boolean;
 };
 
 export const GameTurnChoices: React.FC<GameTurnProps> = (props) => {
-  const { selectedChoice } = props;
+  const { selectedChoice, isChoiceHidden } = props;
 
   if (!selectedChoice) {
     return null;
@@ -18,7 +19,13 @@ export const GameTurnChoices: React.FC<GameTurnProps> = (props) => {
   return (
     <div className="gameTurnContainer centered-display">
       <div className="gameTurnInnerContainer centered-display">
-        {ResourceComponent ? <ResourceComponent /> : selectedChoice}
+        {isChoiceHidden ? (
+          <div className="hiddenChoice centered-display"> Choice Hidden</div>
+        ) : ResourceComponent ? (
+          <ResourceComponent />
+        ) : (
+          selectedChoice
+        )}
       </div>
     </div>
   );

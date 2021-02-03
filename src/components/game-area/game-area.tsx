@@ -12,6 +12,13 @@ export type GameAreaProps = {
   onChoiceSelect: (choice: string) => void;
   playerScore: number;
   opponentScore: number;
+  selectedChoice: string;
+  isChoiceHidden: boolean;
+  gameStatus: "running" | "paused" | "end";
+};
+
+const selectChoiceRandomly = (numberOfChoices: number) => {
+  return Math.floor(Math.random() * numberOfChoices) + 1;
 };
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
@@ -21,21 +28,24 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     onChoiceSelect,
     playerScore,
     opponentScore,
+    selectedChoice,
+    gameStatus,
+    isChoiceHidden
   } = props;
-  const [selectedChoice, setSelectedChoice] = React.useState<
-    string | undefined
-  >();
+
   const player = playerHandler.get();
+  const isAutomatic = player.type === "computer";
+  const choices = matchupHandler.getChoices();
+
 
   React.useEffect(() => {
-    selectedChoice && onChoiceSelect(selectedChoice);
+    if (!selectedChoice && isAutomatic && gameStatus === "running") {
+      const interval = setTimeout(() => {
+        clearInterval(interval)
+        onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
+      }, 1000);
+    }
   }, [selectedChoice]);
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setSelectedChoice(undefined);
-    }, 500);
-  }, [playerScore, opponentScore]);
 
   return (
     <div className="gameAreaContainer">
@@ -45,10 +55,17 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
         </CardHeader>
         <CardContent>
           <GameAreaChoices
-            choices={matchupHandler.getChoices()}
-            onChoiceSelect={(choice: string) => setSelectedChoice(choice)}
+            choices={choices}
+            disabled={isAutomatic || gameStatus !== "running"}
+            onChoiceSelect={(choice: string) => onChoiceSelect(choice)}
           />
-          <GameTurnChoices selectedChoice={selectedChoice} />
+          <GameTurnChoices selectedChoice={selectedChoice} isChoiceHidden={isChoiceHidden} />
+          <div className="gameTurnContainer centered-display">
+            <div className="gameTurnInnerContainer centered-display">
+              {gameStatus !== "running" &&
+                (playerScore > opponentScore ? "Winner" : "Loser")}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

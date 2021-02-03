@@ -21,23 +21,33 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
   );
-  const [score, setScore] = React.useState(scoreBoardHandler.getScore())
+  const [score, setScore] = React.useState(scoreBoardHandler.getScore());
+  const [gameStatus, setGameStatus] = React.useState(scoreBoardHandler.getGameStatus());
 
   React.useEffect(() => {
     if (currentTurnChoices[0]?.length && currentTurnChoices[1]?.length) {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
-      setScore(scoreBoardHandler.getScore())
-      setCurrentTurnChoices([])
+      setScore(scoreBoardHandler.getScore());
+      setGameStatus(scoreBoardHandler.getGameStatus())
+      setTimeout(() => {
+        setCurrentTurnChoices([]);
+      }, 1000);
     }
   }, [currentTurnChoices]);
+
   return (
     <>
       <Header header={"Rock Papers Scissors"} />
       <div className="gameContainer">
         <GameArea
           key={"first-player"}
+          gameStatus={gameStatus}
           playerHandler={playerAHandler}
           matchupHandler={matchupHandler}
+          selectedChoice={currentTurnChoices[0]}
+          isChoiceHidden={
+            !(currentTurnChoices[0]?.length && currentTurnChoices[1]?.length)
+          }
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([choice, currentTurnChoices[1] ?? ""])
           }
@@ -47,8 +57,13 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
         <ScoreBoard />
         <GameArea
           key={"second-player"}
+          gameStatus={gameStatus}
           playerHandler={playerBHandler}
           matchupHandler={matchupHandler}
+          isChoiceHidden={
+            !(currentTurnChoices[0]?.length && currentTurnChoices[1]?.length)
+          }
+          selectedChoice={currentTurnChoices[1]}
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([currentTurnChoices[0] ?? "", choice])
           }

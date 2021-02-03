@@ -5,6 +5,7 @@ export type ScoreBoardHandler = {
   getScore: () => number[];
   getMaxScore: () => number;
   getMaxTurns: () => number;
+  getGameStatus: () => "running" | "paused" | "end";
   playTurn: (playerAChoice: string, playerBChoice: string) => void;
   setScore: (score: number[]) => void;
   setMatchup: (matchup: Matchup) => void;
@@ -21,6 +22,7 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
   let matchup: Matchup = matchupInput;
   let maxTurns = Number.POSITIVE_INFINITY;
   let maxScore = Number.POSITIVE_INFINITY;
+  let gameStatus: "running" | "paused" | "end" = "running";
   let score = [0, 0]; // 2 players constant for now
 
   const setMaxTurns = (turns: number) => {
@@ -40,7 +42,7 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
   };
 
   const attack = (choiceA: string, choiceB: string) => {
-    // Attack and Defesne stats are used to determine the 
+    // Attack and Defesne stats are used to determine the
     // outcome of the matchup and how much score each turn will
     // evaluate to
     // Missing attack stat against a particular type automatically
@@ -55,11 +57,17 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
   };
 
   const playTurn = (playerAChoice: string, playerBChoice: string) => {
-    // Both players attack each turn and score respective points
-    // based on how much their attack would affect the outcome
-    const playerAScoreChange = attack(playerAChoice, playerBChoice);
-    const playerBScoreChange = attack(playerBChoice, playerAChoice);
-    setScore([score[0] + playerAScoreChange, score[1] + playerBScoreChange]);
+    if (score[0] < maxScore && score[1] < maxScore) {
+      // Both players attack each turn and score respective points
+      // based on how much their attack would affect the outcome
+      const playerAScoreChange = attack(playerAChoice, playerBChoice);
+      const playerBScoreChange = attack(playerBChoice, playerAChoice);
+      setScore([score[0] + playerAScoreChange, score[1] + playerBScoreChange]);
+    }
+
+    if (score[0] >= maxScore || score[1] >= maxScore) {
+      gameStatus = "end";
+    }
   };
 
   return {
@@ -67,6 +75,7 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
     getScore: () => score,
     getMaxScore: () => maxScore,
     getMaxTurns: () => maxTurns,
+    getGameStatus: () => gameStatus,
     playTurn,
     setScore,
     setMatchup,
