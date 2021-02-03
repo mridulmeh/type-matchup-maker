@@ -7,5 +7,5 @@ export const RockPaperScissors: React.FC = () => {
   const scoreBoardHandler: ScoreBoardHandler = createRockPaperScissorsGame();
   scoreBoardHandler.setMaxScore(3);
 
-  return <GameBoard scoreBoardHandler={scoreBoardHandler} />;
+  return <GameBoard scoreBoardHandler={scoreBoardHandler} header={'Rock Papers Scissors'} />;
 };
