@@ -22,13 +22,15 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
     []
   );
   const [score, setScore] = React.useState(scoreBoardHandler.getScore());
-  const [gameStatus, setGameStatus] = React.useState(scoreBoardHandler.getGameStatus());
+  const [gameStatus, setGameStatus] = React.useState(
+    scoreBoardHandler.getGameStatus()
+  );
 
   React.useEffect(() => {
     if (currentTurnChoices[0]?.length && currentTurnChoices[1]?.length) {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore());
-      setGameStatus(scoreBoardHandler.getGameStatus())
+      setGameStatus(scoreBoardHandler.getGameStatus());
       setTimeout(() => {
         setCurrentTurnChoices([]);
       }, 1000);
@@ -54,7 +56,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           playerScore={score[0]}
           opponentScore={score[1]}
         />
-        <ScoreBoard />
+        <ScoreBoard players={[playerAHandler.get().name, playerBHandler.get().name]} score={score} />
         <GameArea
           key={"second-player"}
           gameStatus={gameStatus}
@@ -70,7 +72,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           playerScore={score[1]}
           opponentScore={score[0]}
         />
-        <Settings />
+        {/* <Settings />/ */}
       </div>
     </>
   );
