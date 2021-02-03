@@ -26,16 +26,6 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
 
   const player = playerHandler.get();
 
-  // React.useEffect(() => {
-  //   selectedChoice && onChoiceSelect(selectedChoice);
-  // }, [selectedChoice]);
-
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     setSelectedChoice(undefined);
-  //   }, 500);
-  // }, [props.selectedChoice]);
-
   return (
     <div className="gameAreaContainer">
       <Card>
