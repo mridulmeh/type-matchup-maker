@@ -64,7 +64,7 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
       const playerBScoreChange = attack(playerBChoice, playerAChoice);
       setScore([score[0] + playerAScoreChange, score[1] + playerBScoreChange]);
     }
-    console.log(score)
+
     if (score[0] >= maxScore || score[1] >= maxScore) {
       gameStatus = "end";
     }

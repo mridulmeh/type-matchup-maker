@@ -37,9 +37,11 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
   const isAutomatic = player.type === "computer";
   const choices = matchupHandler.getChoices();
 
+
   React.useEffect(() => {
     if (!selectedChoice && isAutomatic && gameStatus === "running") {
-      setTimeout(() => {
+      const interval = setTimeout(() => {
+        clearInterval(interval)
         onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
       }, 1000);
     }
