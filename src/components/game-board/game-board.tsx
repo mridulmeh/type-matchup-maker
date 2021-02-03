@@ -16,30 +16,34 @@ export type GameBoardProps = {
 
 export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const { scoreBoardHandler, matchupHandler } = props;
-  const playerAHandler = playerMaker(0, "First Player", "computer");
+  const playerAHandler = playerMaker(0, "First Player");
   const playerBHandler = playerMaker(1, "Second Player");
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
   );
   const [score, setScore] = React.useState(scoreBoardHandler.getScore());
+  const [gameStatus, setGameStatus] = React.useState(scoreBoardHandler.getGameStatus());
 
   React.useEffect(() => {
     if (currentTurnChoices[0]?.length && currentTurnChoices[1]?.length) {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore());
+      setGameStatus(scoreBoardHandler.getGameStatus())
       setTimeout(() => {
         setCurrentTurnChoices([]);
       }, 500);
     }
   }, [currentTurnChoices]);
 
+
+  console.log(gameStatus)
   return (
     <>
       <Header header={"Rock Papers Scissors"} />
       <div className="gameContainer">
         <GameArea
           key={"first-player"}
-          gameStatus={scoreBoardHandler.getGameStatus()}
+          gameStatus={gameStatus}
           playerHandler={playerAHandler}
           matchupHandler={matchupHandler}
           selectedChoice={currentTurnChoices[0]}
@@ -55,7 +59,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
         <ScoreBoard />
         <GameArea
           key={"second-player"}
-          gameStatus={scoreBoardHandler.getGameStatus()}
+          gameStatus={gameStatus}
           playerHandler={playerBHandler}
           matchupHandler={matchupHandler}
           isChoiceHidden={

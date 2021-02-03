@@ -41,7 +41,7 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     if (!selectedChoice && isAutomatic && gameStatus === "running") {
       setTimeout(() => {
         onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
-      }, 500);
+      }, 1000);
     }
   }, [selectedChoice]);
 
