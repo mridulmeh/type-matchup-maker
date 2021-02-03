@@ -2,6 +2,7 @@ import React from "react";
 import { MatchupHandler } from "../../utils/matchupMaker";
 import { playerMaker } from "../../utils/player";
 import { ScoreBoardHandler } from "../../utils/scoreKeeper";
+import { storeScore } from "../../utils/storage";
 import { GameArea } from "../game-area";
 import { Header } from "../header";
 import { ScoreBoard } from "../score-board/score-board";
@@ -31,18 +32,25 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore());
       setGameStatus(scoreBoardHandler.getGameStatus());
-      localStorage.setItem(
-        "scoreBoard",
-        JSON.stringify({
-          score: scoreBoardHandler.getScore(),
-          maxScore: scoreBoardHandler.getMaxScore(),
-        })
-      );
+      storeScore(scoreBoardHandler)
       setTimeout(() => {
         setCurrentTurnChoices([]);
       }, 1000);
     }
   }, [currentTurnChoices]);
+
+  const endGame = (scoreBoardHandler: ScoreBoardHandler) => {
+    scoreBoardHandler.setGameStatus("end");
+    setGameStatus(scoreBoardHandler.getGameStatus());
+    storeScore(scoreBoardHandler)
+  };
+  const restartGame = (scoreBoardHandler: ScoreBoardHandler) => {
+    scoreBoardHandler.setGameStatus("running");
+    setGameStatus(scoreBoardHandler.getGameStatus());
+    setScore([0, 0]);
+    scoreBoardHandler.setScore([0, 0]);
+    storeScore(scoreBoardHandler)
+  };
 
   return (
     <>
@@ -66,6 +74,8 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
         <ScoreBoard
           players={[playerAHandler.get().name, playerBHandler.get().name]}
           score={score}
+          endGame={() => endGame(scoreBoardHandler)}
+          restartGame={() => restartGame(scoreBoardHandler)}
         />
         <GameArea
           key={"second-player"}

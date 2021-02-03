@@ -11,6 +11,7 @@ export const createRockPaperScissorsMatchup = () => {
 export const createRockPaperScissorsGame = (storedScoreBoardHandler?: {
   score: number[];
   maxScore: number;
+  gameStatus: 'running' | 'paused' | 'end'
 }): {
   scoreBoardHandler: ScoreBoardHandler;
   matchupHandler: MatchupHandler;
@@ -20,6 +21,7 @@ export const createRockPaperScissorsGame = (storedScoreBoardHandler?: {
   if (storedScoreBoardHandler) {
     scoreBoardHandler.setMaxScore(storedScoreBoardHandler.maxScore);
     scoreBoardHandler.setScore(storedScoreBoardHandler.score);
+    scoreBoardHandler.setGameStatus(storedScoreBoardHandler.gameStatus);
   }
   return {
     scoreBoardHandler,

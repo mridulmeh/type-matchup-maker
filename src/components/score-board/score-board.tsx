@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader } from "../common/card";
 import "./score-board.css";
 import "../common.css";
 
-type ScoreBoardProps = {
+type ScoreTableProps = {
   players: string[];
   score: number[];
 };
 
-export const ScoreTable: React.FC<ScoreBoardProps> = ({ players, score }) => {
+export const ScoreTable: React.FC<ScoreTableProps> = ({ players, score }) => {
   return (
     <table className="scoreBoardTable">
       <tbody>
@@ -26,23 +26,47 @@ export const ScoreTable: React.FC<ScoreBoardProps> = ({ players, score }) => {
   );
 };
 
-export const GameOptions = () => {
+export type GameOptionsProps = {
+  endGame: () => void;
+  restartGame: () => void;
+};
+
+export const GameOptions: React.FC<GameOptionsProps> = ({ endGame, restartGame }) => {
   return (
     <div className="gameOptions centered-display">
-      <button className="optionButton restart">Restart Game</button>
-      <button className="optionButton end">End Game</button>
+      <button className="optionButton restart" onClick={() => restartGame()}>
+        Restart Game
+      </button>
+      <button className="optionButton end" onClick={() => endGame()}>
+        End Game
+      </button>
     </div>
   );
 };
 
-export const ScoreBoard: React.FC<ScoreBoardProps> = ({ players, score }) => {
+type ScoreBoardProps = {
+  players: string[];
+  score: number[];
+  endGame: () => void;
+  restartGame: () => void;
+};
+
+export const ScoreBoard: React.FC<ScoreBoardProps> = ({
+  players,
+  score,
+  endGame,
+  restartGame,
+}) => {
   return (
     <div className="scoreBoardContainer">
       <Card>
         <CardHeader>Scoreboard</CardHeader>
         <CardContent>
           <ScoreTable players={players} score={score}></ScoreTable>
-          <GameOptions></GameOptions>
+          <GameOptions
+            endGame={endGame}
+            restartGame={restartGame}
+          ></GameOptions>
         </CardContent>
       </Card>
     </div>

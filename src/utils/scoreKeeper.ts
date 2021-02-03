@@ -11,6 +11,7 @@ export type ScoreBoardHandler = {
   setMatchup: (matchup: Matchup) => void;
   setMaxScore: (score: number) => void;
   setMaxTurns: (turns: number) => void;
+  setGameStatus: (status: "running" | "paused" | "end") => void;
 };
 
 /**
@@ -35,6 +36,10 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
 
   const setScore = (newScore: number[]) => {
     score = newScore;
+  };
+
+  const setGameStatus = (newStatus: "running" | "paused" | "end") => {
+    gameStatus = newStatus;
   };
 
   const setMatchup = (newMatchup: Matchup) => {
@@ -66,7 +71,7 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
     }
 
     if (score[0] >= maxScore || score[1] >= maxScore) {
-      gameStatus = "end";
+      setGameStatus("end");
     }
   };
 
@@ -81,5 +86,6 @@ export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
     setMatchup,
     setMaxScore,
     setMaxTurns,
+    setGameStatus,
   };
 };
