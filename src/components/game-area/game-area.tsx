@@ -4,6 +4,7 @@ import { PlayerHandler } from "../../utils/player";
 import { Card, CardContent, CardHeader } from "../common/card";
 import "./game-area.css";
 import { GameAreaChoices } from "./game-choices";
+import { GameTurnChoices } from "./game-turn";
 
 export type GameAreaProps = {
   playerHandler: PlayerHandler;
@@ -12,6 +13,7 @@ export type GameAreaProps = {
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
   const { playerHandler, matchupHandler } = props;
+  const [selectedChoice, setSelectedChoice] = React.useState<string | undefined>();
   const player = playerHandler.get();
 
   return (
@@ -19,7 +21,11 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
       <Card>
         <CardHeader>{player.name}</CardHeader>
         <CardContent>
-          <GameAreaChoices choices={matchupHandler.getChoices()} />
+          <GameAreaChoices
+            choices={matchupHandler.getChoices()}
+            onChoiceSelect={(choice: string) => setSelectedChoice(choice)}
+          />
+          <GameTurnChoices selectedChoice={selectedChoice} />
         </CardContent>
       </Card>
     </div>
