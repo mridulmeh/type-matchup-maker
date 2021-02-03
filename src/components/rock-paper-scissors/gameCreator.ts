@@ -1,5 +1,5 @@
-import { matchupMaker } from "../utils/matchupMaker";
-import { scoreKeeper } from "../utils/scoreKeeper";
+import { matchupMaker } from "../../utils/matchupMaker";
+import { ScoreBoardHandler, scoreKeeper } from "../../utils/scoreKeeper";
 
 export const createRockPaperScissorsMatchup = () => {
   const matchupHandler = matchupMaker(["Rock", "Paper", "Scissors"]);
@@ -8,7 +8,7 @@ export const createRockPaperScissorsMatchup = () => {
   matchupHandler.increaseAttack("Scissors", "Paper", 1);
   return matchupHandler.get();
 };
-export const createRockPaperScissorsGame = () => {
+export const createRockPaperScissorsGame = (): ScoreBoardHandler => {
   const rockPaperScissorsMatchup = createRockPaperScissorsMatchup();
   const scoreBoardHandler = scoreKeeper(rockPaperScissorsMatchup);
 
