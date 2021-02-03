@@ -16,7 +16,7 @@ export type GameBoardProps = {
 
 export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const { scoreBoardHandler, matchupHandler } = props;
-  const playerAHandler = playerMaker(0, "First Player");
+  const playerAHandler = playerMaker(0, "First Player", "computer");
   const playerBHandler = playerMaker(1, "Second Player");
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
@@ -43,6 +43,9 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           playerHandler={playerAHandler}
           matchupHandler={matchupHandler}
           selectedChoice={currentTurnChoices[0]}
+          isChoiceHidden={
+            !(currentTurnChoices[0]?.length && currentTurnChoices[1]?.length)
+          }
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([choice, currentTurnChoices[1] ?? ""])
           }
@@ -55,6 +58,9 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           gameStatus={scoreBoardHandler.getGameStatus()}
           playerHandler={playerBHandler}
           matchupHandler={matchupHandler}
+          isChoiceHidden={
+            !(currentTurnChoices[0]?.length && currentTurnChoices[1]?.length)
+          }
           selectedChoice={currentTurnChoices[1]}
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([currentTurnChoices[0] ?? "", choice])

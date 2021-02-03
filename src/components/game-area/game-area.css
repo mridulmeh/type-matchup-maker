@@ -68,3 +68,10 @@
   width: 150px;
   height: 150px;
 }
+
+.hiddenChoice {
+  background-color: #772e25;
+  width: 150px;
+  height: 100px;
+  color: white;
+}

@@ -13,6 +13,7 @@ export type GameAreaProps = {
   playerScore: number;
   opponentScore: number;
   selectedChoice: string;
+  isChoiceHidden: boolean;
   gameStatus: "running" | "paused" | "end";
 };
 
@@ -29,6 +30,7 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     opponentScore,
     selectedChoice,
     gameStatus,
+    isChoiceHidden
   } = props;
 
   const player = playerHandler.get();
@@ -36,7 +38,7 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
   const choices = matchupHandler.getChoices();
 
   React.useEffect(() => {
-    if (!selectedChoice && isAutomatic) {
+    if (!selectedChoice && isAutomatic && gameStatus === "running") {
       setTimeout(() => {
         onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
       }, 500);
@@ -55,7 +57,7 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
             disabled={isAutomatic || gameStatus !== "running"}
             onChoiceSelect={(choice: string) => onChoiceSelect(choice)}
           />
-          <GameTurnChoices selectedChoice={selectedChoice} />
+          <GameTurnChoices selectedChoice={selectedChoice} isChoiceHidden={isChoiceHidden} />
           <div className="gameTurnContainer centered-display">
             <div className="gameTurnInnerContainer centered-display">
               {gameStatus !== "running" &&
