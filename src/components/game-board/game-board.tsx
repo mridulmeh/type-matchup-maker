@@ -16,8 +16,8 @@ export type GameBoardProps = {
 
 export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const { scoreBoardHandler, matchupHandler } = props;
-  const playerAHandler = playerMaker(0, "First Player", 'computer');
-  const playerBHandler = playerMaker(1, "Second Player", 'computer');
+  const playerAHandler = playerMaker(0, "First Player");
+  const playerBHandler = playerMaker(1, "Second Player");
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
   );
