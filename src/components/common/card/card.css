@@ -12,12 +12,19 @@
 }
 
 .card-header{
-    height: 25px;
+    height: 24px;
     padding: 4px 0px;
     width: 100%;
     border-bottom: 1px solid rgba(0,0,0,0.12);
 }
 
-.card-content {
+.card-content-container{
+    height: calc(100% - 40px);
+    
+    padding: 4px;
+}
 
+.card-content {
+   height: 100%;
+   width: 100%;
 }

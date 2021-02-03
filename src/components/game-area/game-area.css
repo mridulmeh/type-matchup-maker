@@ -24,3 +24,14 @@
 .gameAreaContainer {
   float: left;
 }
+
+.gameAreaChoicesContainer{
+  width: 20%;
+  height: 100%;
+}
+
+
+.gameAreaChoices {
+  width: 100%;
+  height: 33.33%;
+}
