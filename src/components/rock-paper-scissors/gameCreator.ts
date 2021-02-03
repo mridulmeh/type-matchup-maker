@@ -8,13 +8,19 @@ export const createRockPaperScissorsMatchup = () => {
   matchupHandler.increaseAttack("Scissors", "Paper", 1);
   return matchupHandler;
 };
-export const createRockPaperScissorsGame = (): {
+export const createRockPaperScissorsGame = (storedScoreBoardHandler?: {
+  score: number[];
+  maxScore: number;
+}): {
   scoreBoardHandler: ScoreBoardHandler;
   matchupHandler: MatchupHandler;
 } => {
   const matchupHandler = createRockPaperScissorsMatchup();
   const scoreBoardHandler = scoreKeeper(matchupHandler.get());
-
+  if (storedScoreBoardHandler) {
+    scoreBoardHandler.setMaxScore(storedScoreBoardHandler.maxScore);
+    scoreBoardHandler.setScore(storedScoreBoardHandler.score);
+  }
   return {
     scoreBoardHandler,
     matchupHandler,

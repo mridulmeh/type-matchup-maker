@@ -21,7 +21,7 @@ export type ScoreBoardHandler = {
 export const scoreKeeper = (matchupInput: Matchup): ScoreBoardHandler => {
   let matchup: Matchup = matchupInput;
   let maxTurns = Number.POSITIVE_INFINITY;
-  let maxScore = Number.POSITIVE_INFINITY;
+  let maxScore = 3;
   let gameStatus: "running" | "paused" | "end" = "running";
   let score = [0, 0]; // 2 players constant for now
 

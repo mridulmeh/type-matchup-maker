@@ -31,6 +31,13 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore());
       setGameStatus(scoreBoardHandler.getGameStatus());
+      localStorage.setItem(
+        "scoreBoard",
+        JSON.stringify({
+          score: scoreBoardHandler.getScore(),
+          maxScore: scoreBoardHandler.getMaxScore(),
+        })
+      );
       setTimeout(() => {
         setCurrentTurnChoices([]);
       }, 1000);
@@ -56,7 +63,10 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           playerScore={score[0]}
           opponentScore={score[1]}
         />
-        <ScoreBoard players={[playerAHandler.get().name, playerBHandler.get().name]} score={score} />
+        <ScoreBoard
+          players={[playerAHandler.get().name, playerBHandler.get().name]}
+          score={score}
+        />
         <GameArea
           key={"second-player"}
           gameStatus={gameStatus}
