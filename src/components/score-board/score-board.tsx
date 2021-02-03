@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader } from "../common/card";
 import "./score-board.css";
+import "../common.css";
 
 
 
@@ -11,13 +12,13 @@ type ScoreBoardProps = {
 
 export const ScoreTable: React.FC<ScoreBoardProps> = ({ players, score }) => {
   return (
-    <table>
+    <table className="scoreBoardTable">
       <tbody>
         {players.map((player, i) => {
           return (
             <tr>
               {[player, score[i]].map((value) => {
-                return <td>{value}</td>;
+                return <td className="">{value}</td>;
               })}
             </tr>
           );

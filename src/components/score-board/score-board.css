@@ -3,6 +3,9 @@
     width: 33.33%;
     height: 50%;
   }
+  .scoreBoardTable {
+    height: 80%;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -10,18 +13,31 @@
     width: 20%;
     height: 100%;
   }
+  .scoreBoardTable {
+    height: 60%;
+  }
 }
-
 
 @media only screen and (max-width: 600px) {
   .scoreBoardContainer {
     width: 100%;
     height: 20%;
   }
+  .scoreBoardTable {
+    height: 80%;
+  }
 }
 
-
 .scoreBoardContainer {
-
   float: left;
+}
+
+.scoreBoardTable {
+  width: 100%;
+}
+
+.scoreBoardTable td {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  vertical-align: middle;
+  text-align: center;
 }
