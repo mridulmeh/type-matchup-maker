@@ -21,13 +21,15 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
   );
-  const [score, setScore] = React.useState(scoreBoardHandler.getScore())
+  const [score, setScore] = React.useState(scoreBoardHandler.getScore());
 
   React.useEffect(() => {
     if (currentTurnChoices[0]?.length && currentTurnChoices[1]?.length) {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
-      setScore(scoreBoardHandler.getScore())
-      setCurrentTurnChoices([])
+      setScore(scoreBoardHandler.getScore());
+      setTimeout(() => {
+        setCurrentTurnChoices([]);
+      }, 500);
     }
   }, [currentTurnChoices]);
   return (
@@ -38,6 +40,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           key={"first-player"}
           playerHandler={playerAHandler}
           matchupHandler={matchupHandler}
+          selectedChoice={currentTurnChoices[0]}
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([choice, currentTurnChoices[1] ?? ""])
           }
@@ -49,6 +52,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           key={"second-player"}
           playerHandler={playerBHandler}
           matchupHandler={matchupHandler}
+          selectedChoice={currentTurnChoices[1]}
           onChoiceSelect={(choice: string) =>
             setCurrentTurnChoices([currentTurnChoices[0] ?? "", choice])
           }

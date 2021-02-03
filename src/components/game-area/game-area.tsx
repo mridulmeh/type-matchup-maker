@@ -12,6 +12,7 @@ export type GameAreaProps = {
   onChoiceSelect: (choice: string) => void;
   playerScore: number;
   opponentScore: number;
+  selectedChoice: string
 };
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
@@ -20,22 +21,20 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     matchupHandler,
     onChoiceSelect,
     playerScore,
-    opponentScore,
+    selectedChoice
   } = props;
-  const [selectedChoice, setSelectedChoice] = React.useState<
-    string | undefined
-  >();
+
   const player = playerHandler.get();
 
-  React.useEffect(() => {
-    selectedChoice && onChoiceSelect(selectedChoice);
-  }, [selectedChoice]);
+  // React.useEffect(() => {
+  //   selectedChoice && onChoiceSelect(selectedChoice);
+  // }, [selectedChoice]);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setSelectedChoice(undefined);
-    }, 500);
-  }, [playerScore, opponentScore]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setSelectedChoice(undefined);
+  //   }, 500);
+  // }, [props.selectedChoice]);
 
   return (
     <div className="gameAreaContainer">
@@ -46,7 +45,7 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
         <CardContent>
           <GameAreaChoices
             choices={matchupHandler.getChoices()}
-            onChoiceSelect={(choice: string) => setSelectedChoice(choice)}
+            onChoiceSelect={(choice: string) => onChoiceSelect(choice)}
           />
           <GameTurnChoices selectedChoice={selectedChoice} />
         </CardContent>
