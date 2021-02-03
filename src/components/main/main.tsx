@@ -1,7 +1,6 @@
-
-import React from 'react';
-import { matchupMaker } from '../../utils/matchupMaker';
+import React from "react";
+import { RockPaperScissors } from "../rock-paper-scissors/rock-paper-scissors";
 
 export const TypeMatchupMaker = () => {
-  return <div>dummy</div>;
+  return <RockPaperScissors />;
 };
