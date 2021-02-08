@@ -58,7 +58,7 @@ export const GameOptions: React.FC<GameOptionsProps> = ({
   return (
     <div className="gameOptions centered-display">
        <button className="optionButton playTurn" disabled={isPlayTurnDisabled} onClick={() => playTurn()}>
-        Play Next Turn
+        Play Turn
       </button>
       <button className="optionButton restart" onClick={() => restartGame()}>
         Restart Game
