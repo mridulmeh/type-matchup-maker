@@ -1,13 +1,13 @@
 import React from "react";
 import { MatchupHandler } from "../../utils/matchupMaker";
-import { PlayerHandler } from "../../utils/player";
+import { Player, PlayerHandler } from "../../utils/player";
 import { Card, CardContent, CardHeader } from "../common/card";
 import "./game-area.css";
 import { GameAreaChoices } from "./game-choices";
 import { GameTurnChoices } from "./game-turn";
 
 export type GameAreaProps = {
-  playerHandler: PlayerHandler;
+  player: Player;
   matchupHandler: MatchupHandler;
   onChoiceSelect: (choice: string) => void;
   playerScore: number;
@@ -33,7 +33,7 @@ const selectChoiceRandomly = (numberOfChoices: number) => {
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
   const {
-    playerHandler,
+    player,
     matchupHandler,
     onChoiceSelect,
     playerScore,
@@ -43,7 +43,6 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     isChoiceHidden,
   } = props;
 
-  const player = playerHandler.get();
   const isAutomatic = player.type === "computer";
   const choices = matchupHandler.getChoices();
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { MatchupHandler } from "../../utils/matchupMaker";
-import { playerMaker } from "../../utils/player";
+import { playerMaker, PlayerType } from "../../utils/player";
 import { ScoreBoardHandler } from "../../utils/scoreKeeper";
 import { storeScore } from "../../utils/storage";
 import { GameArea } from "../game-area";
@@ -19,6 +19,10 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const { scoreBoardHandler, matchupHandler } = props;
   const playerAHandler = playerMaker(0, "First Player");
   const playerBHandler = playerMaker(1, "Second Player");
+
+  const [playerA, setPlayerA] = React.useState(playerAHandler.get());
+  const [playerB, setPlayerB] = React.useState(playerBHandler.get());
+
   const [currentTurnChoices, setCurrentTurnChoices] = React.useState<string[]>(
     []
   );
@@ -32,24 +36,37 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
       scoreBoardHandler.playTurn(currentTurnChoices[0], currentTurnChoices[1]);
       setScore(scoreBoardHandler.getScore());
       setGameStatus(scoreBoardHandler.getGameStatus());
-      storeScore(scoreBoardHandler)
+      storeScore(scoreBoardHandler);
       setTimeout(() => {
         setCurrentTurnChoices([]);
       }, 1000);
     }
   }, [currentTurnChoices]);
 
+  const changePlayerAType = (type: PlayerType) => {
+    setPlayerA({ ...playerA, type });
+  };
+  const changePlayerBType = (type: PlayerType) => {
+    setPlayerB({ ...playerB, type });
+  };
+
   const endGame = (scoreBoardHandler: ScoreBoardHandler) => {
     scoreBoardHandler.setGameStatus("end");
     setGameStatus(scoreBoardHandler.getGameStatus());
-    storeScore(scoreBoardHandler)
+    storeScore(scoreBoardHandler);
   };
+
   const restartGame = (scoreBoardHandler: ScoreBoardHandler) => {
     scoreBoardHandler.setGameStatus("running");
     setGameStatus(scoreBoardHandler.getGameStatus());
     setScore([0, 0]);
     scoreBoardHandler.setScore([0, 0]);
-    storeScore(scoreBoardHandler)
+    storeScore(scoreBoardHandler);
+  };
+
+  const changePlayerType = (index: number, type: PlayerType) => {
+    index === 0 ? changePlayerAType(type) : changePlayerBType(type);
+    restartGame(scoreBoardHandler)
   };
 
   return (
@@ -59,7 +76,7 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
         <GameArea
           key={"first-player"}
           gameStatus={gameStatus}
-          playerHandler={playerAHandler}
+          player={playerA}
           matchupHandler={matchupHandler}
           selectedChoice={currentTurnChoices[0]}
           isChoiceHidden={
@@ -72,15 +89,16 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           opponentScore={score[1]}
         />
         <ScoreBoard
-          players={[playerAHandler.get().name, playerBHandler.get().name]}
+          players={[playerA, playerB]}
           score={score}
           endGame={() => endGame(scoreBoardHandler)}
           restartGame={() => restartGame(scoreBoardHandler)}
+          onTypeChange={changePlayerType}
         />
         <GameArea
           key={"second-player"}
           gameStatus={gameStatus}
-          playerHandler={playerBHandler}
+          player={playerB}
           matchupHandler={matchupHandler}
           isChoiceHidden={
             !(currentTurnChoices[0]?.length && currentTurnChoices[1]?.length)
