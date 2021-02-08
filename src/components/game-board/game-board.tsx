@@ -15,11 +15,15 @@ export type GameBoardProps = {
   header: React.ReactNode;
 };
 
+export const selectChoiceRandomly = (numberOfChoices: number) => {
+  return Math.floor(Math.random() * numberOfChoices) ;
+};
+
 export const GameBoard: React.FC<GameBoardProps> = (props) => {
   const { scoreBoardHandler, matchupHandler } = props;
   const playerAHandler = playerMaker(0, "First Player");
   const playerBHandler = playerMaker(1, "Second Player");
-
+  const choices = matchupHandler.getChoices();
   const [playerA, setPlayerA] = React.useState(playerAHandler.get());
   const [playerB, setPlayerB] = React.useState(playerBHandler.get());
 
@@ -61,13 +65,38 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
     setGameStatus(scoreBoardHandler.getGameStatus());
     setScore([0, 0]);
     scoreBoardHandler.setScore([0, 0]);
+    setCurrentTurnChoices([]);
     storeScore(scoreBoardHandler);
   };
 
   const changePlayerType = (index: number, type: PlayerType) => {
     index === 0 ? changePlayerAType(type) : changePlayerBType(type);
-    restartGame(scoreBoardHandler)
+    restartGame(scoreBoardHandler);
   };
+
+  const playTurn = () => {
+    const currentChoices = [];
+    if (playerA.type === "computer") {
+      currentChoices[0] = choices[selectChoiceRandomly(choices.length)];
+      // setCurrentTurnChoices([
+      //  ,
+      //   currentTurnChoices[1] ?? "",
+      // ]);
+    }
+    if (playerB.type === "computer") {
+      currentChoices[1] = choices[selectChoiceRandomly(choices.length)];
+      // setCurrentTurnChoices([
+      //   currentTurnChoices[0] ?? "",
+      //   choices[selectChoiceRandomly(choices.length)],
+      // ]);
+    }
+    setCurrentTurnChoices([
+      currentChoices[0] ?? currentTurnChoices[0] ?? "",
+      currentChoices[1] ?? currentTurnChoices[1] ?? "",
+    ]);
+  };
+
+  console.log(currentTurnChoices)
 
   return (
     <>
@@ -93,6 +122,10 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           score={score}
           endGame={() => endGame(scoreBoardHandler)}
           restartGame={() => restartGame(scoreBoardHandler)}
+          playTurn={playTurn}
+          isPlayTurnDisabled={
+            playerA.type === "user" && playerB.type === "user"
+          }
           onTypeChange={changePlayerType}
         />
         <GameArea

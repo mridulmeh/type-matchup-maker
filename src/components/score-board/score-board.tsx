@@ -45,14 +45,21 @@ export const ScoreTable: React.FC<ScoreTableProps> = ({
 export type GameOptionsProps = {
   endGame: () => void;
   restartGame: () => void;
+  playTurn: () => void;
+  isPlayTurnDisabled: boolean
 };
 
 export const GameOptions: React.FC<GameOptionsProps> = ({
   endGame,
   restartGame,
+  playTurn,
+  isPlayTurnDisabled
 }) => {
   return (
     <div className="gameOptions centered-display">
+       <button className="optionButton playTurn" disabled={isPlayTurnDisabled} onClick={() => playTurn()}>
+        Play Next Turn
+      </button>
       <button className="optionButton restart" onClick={() => restartGame()}>
         Restart Game
       </button>
@@ -68,6 +75,8 @@ type ScoreBoardProps = {
   score: number[];
   endGame: () => void;
   restartGame: () => void;
+  playTurn: () => void;
+  isPlayTurnDisabled: boolean
   onTypeChange: (index: number, value: PlayerType) => void;
 };
 
@@ -76,6 +85,8 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
   score,
   endGame,
   restartGame,
+  playTurn,
+  isPlayTurnDisabled,
   onTypeChange,
 }) => {
   return (
@@ -91,6 +102,8 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
           <GameOptions
             endGame={endGame}
             restartGame={restartGame}
+            playTurn={playTurn}
+            isPlayTurnDisabled={isPlayTurnDisabled}
           ></GameOptions>
         </CardContent>
       </Card>
