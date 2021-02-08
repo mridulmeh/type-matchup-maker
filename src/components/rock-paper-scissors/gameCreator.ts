@@ -31,7 +31,7 @@ export const createRockPaperScissorsGame = (
   const scoreBoardHandler = scoreKeeper(matchupHandler.get());
 
   const playerAHandler = playerMaker(0, "First Player", "user");
-  const playerBHandler = playerMaker(1, "Second Player", "user");
+  const playerBHandler = playerMaker(1, "Second Player", "computer");
 
   if (storedScoreBoardHandler) {
     scoreBoardHandler.setMaxScore(storedScoreBoardHandler.maxScore);
