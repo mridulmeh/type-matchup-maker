@@ -54,11 +54,11 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
 
   const changePlayerAType = (type: PlayerType) => {
     setPlayerA({ ...playerA, type });
-    playerAHandler.setType(type)
+    playerAHandler.setType(type);
   };
   const changePlayerBType = (type: PlayerType) => {
     setPlayerB({ ...playerB, type });
-    playerBHandler.setType(type)
+    playerBHandler.setType(type);
   };
 
   const endGame = (scoreBoardHandler: ScoreBoardHandler) => {
@@ -86,25 +86,15 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
     const currentChoices = [];
     if (playerA.type === "computer") {
       currentChoices[0] = choices[selectChoiceRandomly(choices.length)];
-      // setCurrentTurnChoices([
-      //  ,
-      //   currentTurnChoices[1] ?? "",
-      // ]);
     }
     if (playerB.type === "computer") {
       currentChoices[1] = choices[selectChoiceRandomly(choices.length)];
-      // setCurrentTurnChoices([
-      //   currentTurnChoices[0] ?? "",
-      //   choices[selectChoiceRandomly(choices.length)],
-      // ]);
     }
     setCurrentTurnChoices([
       currentChoices[0] ?? currentTurnChoices[0] ?? "",
       currentChoices[1] ?? currentTurnChoices[1] ?? "",
     ]);
   };
-
-  console.log(currentTurnChoices);
 
   return (
     <>
@@ -132,7 +122,9 @@ export const GameBoard: React.FC<GameBoardProps> = (props) => {
           restartGame={() => restartGame(scoreBoardHandler)}
           playTurn={playTurn}
           isPlayTurnDisabled={
-            playerA.type === "user" && playerB.type === "user"
+            (playerA.type === "user" && playerB.type === "user") ||
+            score[0] >= scoreBoardHandler.getMaxScore() ||
+            score[1] >= scoreBoardHandler.getMaxScore()
           }
           onTypeChange={changePlayerType}
         />
