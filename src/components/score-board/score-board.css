@@ -60,14 +60,22 @@
 
 .optionButton{
   margin: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.playTurn{
+  background-color: #b8f2e6;
+  color: #5e6472
 }
 
 .restart{
-  background-color: #197278;
+  background-color: #5e6472;
   color: white;
 }
 
 .end {
-  background-color: #772e25;
-  color: white;
+  background-color: #ffa69e;
+  color: #5e6472;
 }

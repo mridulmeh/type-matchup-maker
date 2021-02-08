@@ -1,13 +1,13 @@
 import React from "react";
 import { MatchupHandler } from "../../utils/matchupMaker";
-import { PlayerHandler } from "../../utils/player";
+import { Player, PlayerHandler } from "../../utils/player";
 import { Card, CardContent, CardHeader } from "../common/card";
 import "./game-area.css";
 import { GameAreaChoices } from "./game-choices";
 import { GameTurnChoices } from "./game-turn";
 
 export type GameAreaProps = {
-  playerHandler: PlayerHandler;
+  player: Player;
   matchupHandler: MatchupHandler;
   onChoiceSelect: (choice: string) => void;
   playerScore: number;
@@ -27,13 +27,13 @@ const getCondition = (scoreA: number, scoreB: number) => {
   return "Draw";
 };
 
-const selectChoiceRandomly = (numberOfChoices: number) => {
+export const selectChoiceRandomly = (numberOfChoices: number) => {
   return Math.floor(Math.random() * numberOfChoices) + 1;
 };
 
 export const GameArea: React.FC<GameAreaProps> = (props) => {
   const {
-    playerHandler,
+    player,
     matchupHandler,
     onChoiceSelect,
     playerScore,
@@ -43,18 +43,18 @@ export const GameArea: React.FC<GameAreaProps> = (props) => {
     isChoiceHidden,
   } = props;
 
-  const player = playerHandler.get();
   const isAutomatic = player.type === "computer";
   const choices = matchupHandler.getChoices();
 
-  React.useEffect(() => {
-    if (!selectedChoice && isAutomatic && gameStatus === "running") {
-      const interval = setTimeout(() => {
-        clearInterval(interval);
-        onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
-      }, 1000);
-    }
-  }, [selectedChoice]);
+  // React.useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (!selectedChoice && isAutomatic && gameStatus === "running") {
+  //       onChoiceSelect(choices[selectChoiceRandomly(choices.length)]);
+  //     } else {
+  //       clearInterval(interval);
+  //     }
+  //   }, 1000);
+  // }, [selectedChoice, gameStatus]);
 
   return (
     <div className="gameAreaContainer">
